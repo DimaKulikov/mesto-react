@@ -1,36 +1,31 @@
-import { useState, useEffect } from "react"
-import api from "../utils/Api"
+import { useState, useContext, useEffect} from "react"
+import CurrentUserContext from "../contexts/CurrentUserContext"
 import Card from './Card'
+import api from './Api'
 
 function Main(props) {
   const { onEditAvatar, onEditProfile, onAddPlace, onCardClick } = props
 
-  const [userName, setUserName] = useState('Имя')
-  const [userDesctiption, setUserDescription] = useState('Описание')
-  const [userAvatar, setUserAvatar] = useState('../../../images/avatar.png')
-
   const [cards, setCards] = useState([])
 
-  useEffect(() => {
-    Promise.all([api.getInitialCards(), api.getUserInfo()]).then(res => {
-      const [cardsArray, userData] = res;
-      setUserAvatar(userData.avatar)
-      setUserDescription(userData.about)
-      setUserName(userData.name)
-      setCards(cardsArray)
-    }).catch(err => console.error('Ошибка получения карточек и данных пользователя: ', err))
-  }, [])
+  const currentUser = useContext(CurrentUserContext)
 
+  useEffect(() => {
+    api.getInitialCards().then(res => {
+      setCards(res)
+    }).catch(err => console.error('Ошибка получения карточек: ', err))
+  }, [])
+  
   return (
     <main className="page__section">
       <section className="profile">
         <button
           onClick={onEditAvatar}
-          style={{ backgroundImage: `url(${userAvatar})` }}
+          style={{ backgroundImage: `url(${currentUser.avatar})` }}
           className="profile__avatar"></button>
         <div className="profile__text-container">
           <div className="profile__name-container">
-            <h1 className="profile__name">{userName}</h1>
+            <h1 className="profile__name">{currentUser.name}</h1>
             <button
               onClick={onEditProfile}
               className="profile__edit-btn"
@@ -38,7 +33,7 @@ function Main(props) {
               aria-label="редактировать профиль">
             </button>
           </div>
-          <p className="profile__subtitle">{userDesctiption}</p>
+          <p className="profile__subtitle">{currentUser.about}</p>
         </div>
         <button
           onClick={onAddPlace}
