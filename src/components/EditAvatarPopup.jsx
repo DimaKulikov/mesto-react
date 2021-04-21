@@ -1,13 +1,13 @@
 import PopupWithForm from "./PopupWithForm";
 
 function EditAvatarPopup(props) {
-  const { isEditAvatarPopupOpen, closeAllPopups } = props;
+  const { isOpen, closeAllPopups } = props;
 
   return (
     <PopupWithForm
       name="avatar-edit"
       title="Обновить аватар"
-      isOpen={isEditAvatarPopupOpen}
+      isOpen={isOpen}
       closeHandler={closeAllPopups}
     >
       <input

@@ -1,13 +1,13 @@
 import PopupWithForm from "./PopupWithForm";
 
 function EditProfilePopup(props) {
-  const { isEditProfilePopupOpen, closeAllPopups } = props;
+  const { isOpen, closeAllPopups } = props;
 
   return (
     <PopupWithForm
       name="profile-edit"
       title="Редактировать профиль"
-      isOpen={isEditProfilePopupOpen}
+      isOpen={isOpen}
       closeHandler={closeAllPopups}
     >
       <input

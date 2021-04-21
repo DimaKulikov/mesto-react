@@ -65,11 +65,11 @@ function App() {
         <Footer />
 
         <EditProfilePopup
-          isEditProfilePopupOpen={isEditProfilePopupOpen}
+          isOpen={isEditProfilePopupOpen}
           closeAllPopups={closeAllPopups}
         />
         <AddPlacePopup
-          isAddPlacePopupOpen={isAddPlacePopupOpen}
+          isOpen={isAddPlacePopupOpen}
           closeAllPopups={closeAllPopups}
         />
 
@@ -82,7 +82,7 @@ function App() {
         </PopupWithForm> */}
 
         <EditAvatarPopup
-          isEditAvatarPopupOpen={isEditAvatarPopupOpen}
+          isOpen={isEditAvatarPopupOpen}
           closeAllPopups={closeAllPopups}
         />
         <ImagePopup card={selectedCard} closeHandler={closeAllPopups} />

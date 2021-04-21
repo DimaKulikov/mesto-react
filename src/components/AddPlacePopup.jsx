@@ -1,13 +1,13 @@
 import PopupWithForm from "./PopupWithForm";
 
 function AddPlacePopup(props) {
-  const { isAddPlacePopupOpen, closeAllPopups } = props;
+  const { isOpen, closeAllPopups } = props;
 
   return (
     <PopupWithForm
       name="place-add"
       title="Новое место"
-      isOpen={isAddPlacePopupOpen}
+      isOpen={isOpen}
       closeHandler={closeAllPopups}
     >
       <input
