@@ -4,6 +4,8 @@ import React from "react"
 function PopupWithForm(props) {
   const { name, title, isOpen, closeHandler } = props;
 
+  const popupClassName = `popup popup_${name} ${isOpen ? "popup_opened" : ""}`;
+
   React.useEffect(() => {
     function closeOnEsc(evt) {
       if (evt.key === "Escape") {
@@ -20,7 +22,7 @@ function PopupWithForm(props) {
   }, [isOpen, closeHandler]);
 
   return (
-    <div className={`popup popup_${name} ${isOpen ? "popup_opened" : ""}`}>
+    <div className={popupClassName}>
       <div className="popup__container">
         <button
           onClick={closeHandler}
