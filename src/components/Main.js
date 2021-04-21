@@ -3,6 +3,8 @@ import CurrentUserContext from "../contexts/CurrentUserContext"
 import Card from './Card'
 import api from './Api'
 
+
+
 function Main(props) {
   const { onEditAvatar, onEditProfile, onAddPlace, onCardClick } = props
 
@@ -15,6 +17,16 @@ function Main(props) {
       setCards(res)
     }).catch(err => console.error('Ошибка получения карточек: ', err))
   }, [])
+
+  function handleCardLike(card) {
+    // Снова проверяем, есть ли уже лайк на этой карточке
+    const isLiked = card.likes.some((i) => i._id === currentUser._id);
+
+    // Отправляем запрос в API и получаем обновлённые данные карточки
+    api.changeCardLikeStatus(card._id, isLiked).then((newCard) => {
+      setCards((state) => state.map((c) => (c._id === card._id ? newCard : c)));
+    });
+  }
   
   return (
     <main className="page__section">
@@ -48,8 +60,13 @@ function Main(props) {
 
           {cards.map((cardData => {
             return (
-              <Card cardData={cardData} onCardClick={onCardClick} key={cardData._id} />
-            )
+              <Card
+                key={cardData._id}
+                cardData={cardData}
+                onCardClick={onCardClick}
+                onCardLike={handleCardLike}
+              />
+            );
           }))}
 
 
