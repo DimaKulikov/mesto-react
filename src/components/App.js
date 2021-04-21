@@ -47,11 +47,11 @@ function App() {
         onAddPlace={handleAddPlaceClick}
         onCardClick={handleCardClick}
       />
-      
+
       <Footer />
 
       <EditProfilePopup
-        isEditAvatarPopupOpen={isEditProfilePopupOpen}
+        isEditProfilePopupOpen={isEditProfilePopupOpen}
         closeAllPopups={closeAllPopups}
       />
       <AddPlacePopup
