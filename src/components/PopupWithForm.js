@@ -2,7 +2,7 @@ import React from "react"
 
 
 function PopupWithForm(props) {
-  const { name, title, isOpen, closeHandler } = props;
+  const { name, title, isOpen, closeHandler, onSubmit } = props;
 
   const popupClassName = `popup popup_${name} ${isOpen ? "popup_opened" : ""}`;
 
@@ -30,7 +30,7 @@ function PopupWithForm(props) {
           type="button"
           aria-label="закрыть"
         ></button>
-        <form className="form" name={name} noValidate>
+        <form onSubmit={onSubmit} className="form" name={name} noValidate>
           <h2 className="form__title">{title}</h2>
           {props.children}
         </form>

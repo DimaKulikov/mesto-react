@@ -45,6 +45,18 @@ function App() {
     setIsAddPlacePopupOpen(true);
   }
 
+  function handleUpdateUser(newUserData) {
+    api
+      .updateUserInfo(newUserData)
+      .then((userDataFromServer) => {
+        setCurrentUser(userDataFromServer);
+      })
+      .catch((e) => console.log)
+      .finally(() => {
+        closeAllPopups();
+      });
+  }
+
   useEffect(() => {
     api.getUserInfo().then((userData) => {
       setCurrentUser(userData);
@@ -67,6 +79,7 @@ function App() {
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
           closeAllPopups={closeAllPopups}
+          onUpdateUser={handleUpdateUser}
         />
         <AddPlacePopup
           isOpen={isAddPlacePopupOpen}
