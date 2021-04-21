@@ -78,12 +78,12 @@ function App() {
 
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
-          closeAllPopups={closeAllPopups}
+          onClose={closeAllPopups}
           onUpdateUser={handleUpdateUser}
         />
         <AddPlacePopup
           isOpen={isAddPlacePopupOpen}
-          closeAllPopups={closeAllPopups}
+          onClose={closeAllPopups}
         />
 
         {/* <PopupWithForm name='place-remove' title='Вы уверены?'>
@@ -96,7 +96,7 @@ function App() {
 
         <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}
-          closeAllPopups={closeAllPopups}
+          onClose={closeAllPopups}
         />
         <ImagePopup card={selectedCard} closeHandler={closeAllPopups} />
       </div>

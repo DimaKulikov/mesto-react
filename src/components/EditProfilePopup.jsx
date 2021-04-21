@@ -3,7 +3,7 @@ import CurrentUserContext from "../contexts/CurrentUserContext";
 import PopupWithForm from "./PopupWithForm";
 
 function EditProfilePopup(props) {
-  const { isOpen, closeAllPopups, onUpdateUser } = props;
+  const { isOpen, onClose, onUpdateUser } = props;
 
   const currentUser = useContext(CurrentUserContext)
   
@@ -29,7 +29,7 @@ function EditProfilePopup(props) {
       name="profile-edit"
       title="Редактировать профиль"
       isOpen={isOpen}
-      closeHandler={closeAllPopups}
+      closeHandler={onClose}
       onSubmit={handleSubmit}
     >
       <input
