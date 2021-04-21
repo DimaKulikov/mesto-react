@@ -27,6 +27,12 @@ function Main(props) {
       setCards((state) => state.map((c) => (c._id === card._id ? newCard : c)));
     });
   }
+
+  function handleCardDelete(card) {
+    api.deleteCard(card._id).then(() => {
+      setCards((state) => state.filter((c) => c._id !== card._id));
+    });
+  }
   
   return (
     <main className="page__section">
@@ -65,6 +71,7 @@ function Main(props) {
                 cardData={cardData}
                 onCardClick={onCardClick}
                 onCardLike={handleCardLike}
+                onCardDelete={handleCardDelete}
               />
             );
           }))}

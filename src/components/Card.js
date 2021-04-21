@@ -1,14 +1,14 @@
 import { useContext } from "react";
 import CurrentUserContext from "../contexts/CurrentUserContext";
 
-function Card(props) {
-  const { cardData, onCardClick, onCardLike } = props;
-
+function Card({ cardData, onCardClick, onCardLike, onCardDelete }) {
   const currentUser = useContext(CurrentUserContext);
-  
-  const isOwn = currentUser._id === cardData.owner._id
-  const isLiked = cardData.likes.some(i => i._id === currentUser._id);
-  const likeBtnClassName = `card__like-btn ${isLiked ? 'card__like-btn_active' : ''}`
+
+  const isOwn = currentUser._id === cardData.owner._id;
+  const isLiked = cardData.likes.some((i) => i._id === currentUser._id);
+  const likeBtnClassName = `card__like-btn ${
+    isLiked ? "card__like-btn_active" : ""
+  }`;
 
   function handleClick() {
     onCardClick(cardData);
@@ -18,9 +18,20 @@ function Card(props) {
     onCardLike(cardData);
   }
 
+  function handleDeleteClick() {
+    onCardDelete(cardData);
+  }
+
   return (
     <li className="card">
-      {isOwn && <button className="card__remove-btn"></button>}
+      {isOwn && (
+        (
+          <button
+            className="card__remove-btn"
+            onClick={handleDeleteClick}        
+        ></button>
+      )
+      )}
       <img
         className="card__pic"
         src={cardData.link}
