@@ -17,15 +17,59 @@ class Api {
     return fetch(this._baseUrl + "/cards", {
       headers: this._headers,
     }).then((res) => this._parseResponse(res));
+    /**
+     * response
+     * [
+  {
+    "likes": [],
+    "_id": "5d1f0611d321eb4bdcd707dd",
+    "name": "Байкал",
+    "link": "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg",
+    "owner": {
+      "name": "Jacques Cousteau",
+      "about": "Sailor, researcher",
+      "avatar": "https://pictures.s3.yandex.net/frontend-developer/ava.jpg",
+      "_id": "ef5f7423f7f5e22bef4ad607",
+      "cohort": "local"
+    },
+    "createdAt": "2019-07-05T08:10:57.741Z"
+  },
+     */
   }
-
+  
   getUserInfo() {
     return fetch(this._baseUrl + "/users/me", {
       headers: this._headers,
     }).then((res) => this._parseResponse(res));
+    /**
+     * response
+     *     {
+     *     "name": "Jacques Cousteau",
+     *     "about": "Sailor, researcher",
+     *     "avatar": "https://pictures.s3.yandex.net/frontend-developer/ava.jpg",
+     *     "_id": "e20537ed11237f86bbb20ccb",
+     *     "cohort": "cohort0"
+     *   } 
+  */
   }
 
   updateUserInfo(newInfo) {
+    /**
+     * request
+     * {
+     * name: 'name',
+     * about: 'about'
+     * }
+     * 
+     * response
+     * {
+     *   "name": "Marie Skłodowska Curie",
+     *   "about": "Physicist and Chemist",
+     *   "avatar": "https://pictures.s3.yandex.net/frontend-developer/common/ava.jpg",
+     *   "_id": "e20537ed11237f86bbb20ccb",
+     *   "cohort": "cohort0",
+     * } 
+     */
     return fetch(this._baseUrl + "/users/me", {
       headers: { ...this._headers, "content-type": "application/json" },
       method: "PATCH",
@@ -34,6 +78,30 @@ class Api {
   }
 
   addCard(newCard) {
+    /**
+     * request
+     * {
+     * name: 'name'
+     * link: 'url'
+     * }
+     * 
+     * response 
+     *  {
+     *     "likes": [],
+     *     "_id": "5d1f0611d321eb4bdcd707dd",
+     *     "name": "Байкал",
+     *     "link": "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg",
+     *     "owner": {
+     *       "name": "Jacques Cousteau",
+     *       "about": "Sailor, researcher",
+     *       "avatar": "https://pictures.s3.yandex.net/frontend-developer/ava.jpg",
+     *       "_id": "ef5f7423f7f5e22bef4ad607",
+     *       "cohort": "local"
+     *     },
+     *     "createdAt": "2019-07-05T08:10:57.741Z"
+     *   }
+     * 
+     */
     return fetch(this._baseUrl + "/cards", {
       headers: { ...this._headers, "content-type": "application/json" },
       method: "POST",
@@ -67,6 +135,12 @@ class Api {
   }
 
   updateAvatar(avatar) {
+    /**
+     * request
+     * {
+     * avatar: 'url'
+     * }
+     */
     return fetch(this._baseUrl + "/users/me/avatar", {
       headers: { ...this._headers, "content-type": "application/json" },
       method: "PATCH",

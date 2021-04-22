@@ -1,7 +1,6 @@
-import { useState, useContext, useEffect} from "react"
+import { useContext } from "react"
 import CurrentUserContext from "../contexts/CurrentUserContext"
 import Card from './Card'
-import api from './Api'
 
 
 
@@ -9,31 +8,6 @@ function Main(props) {
   const { onEditAvatar, onEditProfile, onAddPlace, onCardClick, cards, onCardLike, onCardDelete } = props
 
   const currentUser = useContext(CurrentUserContext)
-  // const [cards, setCards] = useState([])
-
-
-  // useEffect(() => {
-  //   api.getInitialCards().then(res => {
-  //     setCards(res)
-  //   }).catch(err => console.error('Ошибка получения карточек: ', err))
-  // }, [])
-
-  // function handleCardLike(card) {
-  //   // Снова проверяем, есть ли уже лайк на этой карточке
-  //   const isLiked = card.likes.some((i) => i._id === currentUser._id);
-
-  //   // Отправляем запрос в API и получаем обновлённые данные карточки
-  //   return api.changeCardLikeStatus(card._id, isLiked)
-  //     .then((newCard) => {
-  //       setCards((state) => state.map((c) => (c._id === card._id ? newCard : c)));
-  //     });
-  // }
-
-  // function handleCardDelete(card) {
-  //   return api.deleteCard(card._id).then(() => {
-  //     setCards((state) => state.filter((c) => c._id !== card._id));
-  //   });
-  // }
   
   return (
     <main className="page__section">
@@ -68,11 +42,8 @@ function Main(props) {
           {cards.map((cardData => {
             return (
               <Card
-                key={cardData._id}
-                cardData={cardData}
-                onCardClick={onCardClick}
-                onCardLike={onCardLike}
-                onCardDelete={onCardDelete}
+                key={cardData._id}                
+                {...{cardData,onCardClick,onCardLike,onCardDelete}}                
               />
             );
           }))}

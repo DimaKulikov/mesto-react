@@ -38,7 +38,7 @@ function ImagePopup(props) {
             aria-label="закрыть"
           ></button>
           {isImageLoading && <PopupSpinner />}
-          <img className={imageClass} src={card.link} alt={card.name} onLoad={() =>{ setIsImageLoading(false); console.log('loaded')}} />
+          <img className={imageClass} src={card.link} alt={card.name} onLoad={() =>{ setIsImageLoading(false)}} />
           
           <p className="popup__subtitle">{card.name}</p>
         </div>

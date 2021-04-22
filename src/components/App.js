@@ -22,31 +22,6 @@ function App() {
   const [selectedCard, setSelectedCard] = useState();
   const [currentUser, setCurrentUser] = useState(defaultUser);
 
-
-
-
-
-  function handleCardLike(card) {
-    // Снова проверяем, есть ли уже лайк на этой карточке
-    const isLiked = card.likes.some((i) => i._id === currentUser._id);
-
-    // Отправляем запрос в API и получаем обновлённые данные карточки
-    return api.changeCardLikeStatus(card._id, isLiked)
-      .then((newCard) => {
-        setCards((state) => state.map((c) => (c._id === card._id ? newCard : c)));
-      });
-  }
-
-  function handleCardDelete(card) {
-    return api.deleteCard(card._id).then(() => {
-      setCards((state) => state.filter((c) => c._id !== card._id));
-    });
-  }
-
-  function handleCardClick(cardData) {
-    setSelectedCard(cardData);
-  }
-
   function closeAllPopups() {
     setIsEditAvatarPopupOpen(false);
     setIsEditProfilePopupOpen(false);
@@ -67,46 +42,60 @@ function App() {
   }
 
   function handleUpdateUser(newUserData) {
-    api
-      .updateUserInfo(newUserData)
+    return api.updateUserInfo(newUserData)
       .then((userDataFromServer) => {
         setCurrentUser(userDataFromServer);
       })
-      .catch(console.log)
-      .finally(() => {
-        closeAllPopups();
+      .catch(err => console.log('Ошибка при обновлении информации о пользователе: ', err))
+  }
+
+  function handleUpdateAvatar(newUserData) {
+    return api.updateAvatar(newUserData)
+      .then((userDataFromServer) => {
+        setCurrentUser(userDataFromServer);
+      })
+      .catch(err => console.log('Ошибка при обновлении аватара: ', err))      
+  }
+
+  function handleCardLike(card) {
+    const isLiked = card.likes.some((i) => i._id === currentUser._id);
+    return api.changeCardLikeStatus(card._id, isLiked)
+      .then((newCard) => {
+        setCards((state) => state.map((c) => (c._id === card._id ? newCard : c)));
       });
   }
 
-  function handleUpdateAvatar(newUserData, inputRef) {
-    api.updateAvatar(newUserData)
-      .then((userDataFromServer) => {
-        setCurrentUser(userDataFromServer);
-      })
-      .catch(console.log)
-      .finally(() => {
-        closeAllPopups();
-        inputRef.value = ''
-      });
+  function handleCardDelete(card) {
+    return api.deleteCard(card._id).then(() => {
+      setCards((state) => state.filter((c) => c._id !== card._id));
+    });
+  }
+
+  function handleCardClick(cardData) {
+    setSelectedCard(cardData);
+  }
+
+  function handleAddPlaceSubmit(newCardData) {
+    return api.addCard(newCardData)
+      .then(addedCard => setCards([addedCard, ...cards]))
+      .catch(err => console.error('Ошибка при добавлении карточки: ', err))
   }
 
   useEffect(() => {
-    api.getUserInfo()
-      .then((userData) => {
+    Promise.all([api.getUserInfo(), api.getInitialCards()])
+      .then(([userData, cardsArray]) => {
         setCurrentUser(userData);
-      });
-    api.getInitialCards()
-      .then(res => {
-          setCards(res)
-        }).catch(err => console.error('Ошибка получения карточек: ', err))
-  }, []);
+        setCards(cardsArray)
+      })
+      .catch(console.log)
+    }, []);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
         <Header />
         <Main
-          cards={cards}
+          {...{cards}}
           onEditAvatar={handleEditAvatarClick}
           onEditProfile={handleEditProfileClick}
           onAddPlace={handleAddPlaceClick}
@@ -125,15 +114,8 @@ function App() {
         <AddPlacePopup
           isOpen={isAddPlacePopupOpen}
           onClose={closeAllPopups}
+          onAddPlace={handleAddPlaceSubmit}
         />
-
-        {/* <PopupWithForm name='place-remove' title='Вы уверены?'>
-          <button
-            className="form__submit"
-            type="submit">
-            Да
-              </button>
-        </PopupWithForm> */}
 
         <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}

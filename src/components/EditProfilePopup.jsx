@@ -8,15 +8,21 @@ function EditProfilePopup(props) {
   const currentUser = useContext(CurrentUserContext)
   
   const [name, setName] = useState(currentUser.name)
-  const [description, setDescription] = useState(currentUser.about)
+  const [description, setDescription] = useState(currentUser.about)  
+  const [isSubmitting, setIsSubmitting] = useState(false)
   
 
   function handleSubmit(e) {
+    setIsSubmitting(true)
     e.preventDefault()
     onUpdateUser({
       name,
       about: description
     })
+      .finally(() => {
+        onClose();
+        setIsSubmitting(false)
+      })
   }
 
   useEffect(() => {
@@ -61,7 +67,7 @@ function EditProfilePopup(props) {
       />
       <span className="form__error profile-subtitle-input-error"></span>
       <button className="form__submit" type="submit">
-        Сохранить
+        {isSubmitting ? 'Сохранение...' : 'Сохранить'}
       </button>
     </PopupWithForm>
   );

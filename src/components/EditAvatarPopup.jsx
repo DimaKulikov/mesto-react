@@ -1,14 +1,22 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import PopupWithForm from "./PopupWithForm";
 
 function EditAvatarPopup(props) {
   const { isOpen, onClose, onUpdateAvatar } = props;
 
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
   const avatarLinkInputRef = useRef()
 
-  function handleSubmit (e) {
+  function handleSubmit(e) {
+    setIsSubmitting(true)
     e.preventDefault();
-    onUpdateAvatar({ avatar: avatarLinkInputRef.current.value }, avatarLinkInputRef.current);
+    onUpdateAvatar({ avatar: avatarLinkInputRef.current.value })
+      .finally(() => {
+        onClose()
+        avatarLinkInputRef.current.value = ''        
+        setIsSubmitting(false)
+      })
   }
 
   return (
@@ -31,7 +39,7 @@ function EditAvatarPopup(props) {
       />
       <span className="form__error avatar-link-input-error"></span>
       <button className="form__submit" type="submit">
-        Сохранить
+        {isSubmitting ? 'Сохранение...' : 'Сохранить'}
       </button>
     </PopupWithForm>
   );

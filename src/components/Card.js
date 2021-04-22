@@ -32,10 +32,7 @@ function Card({ cardData, onCardClick, onCardLike, onCardDelete }) {
   function handleDeleteClick() {
     setDeleteProcessing(true)
     onCardDelete(cardData)
-      .catch(console.log)
-      .finally(() => {
-        setDeleteProcessing(false)
-      });
+      .catch(err => {console.log(err); setDeleteProcessing(false)})
   }
 
   const cardClassName = `card ${deleteProcessing ? 'card_faded' : ''}`
