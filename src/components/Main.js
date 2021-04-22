@@ -29,7 +29,7 @@ function Main(props) {
   }
 
   function handleCardDelete(card) {
-    api.deleteCard(card._id).then(() => {
+    return api.deleteCard(card._id).then(() => {
       setCards((state) => state.filter((c) => c._id !== card._id));
     });
   }

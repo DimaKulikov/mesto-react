@@ -1,11 +1,13 @@
 import { useContext, useState } from "react";
 import CurrentUserContext from "../contexts/CurrentUserContext";
 import CardLikeSpinner from "./CardLikeSpinner";
+import CardRemoveSpinner from "./CardRemoveSpinner";
 
 function Card({ cardData, onCardClick, onCardLike, onCardDelete }) {
   const currentUser = useContext(CurrentUserContext);
 
   const [likeProcessing, setLikeProcessing] = useState(false)
+  const [deleteProcessing, setDeleteProcessing] = useState(false)
 
   const isOwn = currentUser._id === cardData.owner._id;
   const isLiked = cardData.likes.some((i) => i._id === currentUser._id);
@@ -28,19 +30,25 @@ function Card({ cardData, onCardClick, onCardLike, onCardDelete }) {
   }
 
   function handleDeleteClick() {
-    onCardDelete(cardData);
+    setDeleteProcessing(true)
+    onCardDelete(cardData)
+      .catch(console.log)
+      .finally(() => {
+        setDeleteProcessing(false)
+      });
   }
 
+  const cardClassName = `card ${deleteProcessing ? 'card_faded' : ''}`
   return (
-    <li className="card">
+    <li className={cardClassName}>
       {isOwn && (
-        (
-          <button
+        deleteProcessing
+        ? <CardRemoveSpinner />
+        : <button
             className="card__remove-btn"
-            onClick={handleDeleteClick}        
-        ></button>
-      )
-      )}
+            onClick={handleDeleteClick}
+          ></button>)
+      }
       <img
         className="card__pic"
         src={cardData.link}
