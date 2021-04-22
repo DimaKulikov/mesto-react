@@ -49,7 +49,7 @@ function Card({ cardData, onCardClick, onCardLike, onCardDelete }) {
         <h2 className="card__title">{cardData.name}</h2>
         <div className="card__like-container">
           <button
-            onClick={likeProcessing ? '' : handleLikeClick}
+            onClick={likeProcessing ? null : handleLikeClick}
             className={likeBtnClassName}
             type="button"
             aria-label="лайк"
