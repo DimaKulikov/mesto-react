@@ -51,9 +51,21 @@ function App() {
       .then((userDataFromServer) => {
         setCurrentUser(userDataFromServer);
       })
-      .catch((e) => console.log)
+      .catch(console.log)
       .finally(() => {
         closeAllPopups();
+      });
+  }
+
+  function handleUpdateAvatar(newUserData, inputRef) {
+    api.updateAvatar(newUserData)
+      .then((userDataFromServer) => {
+        setCurrentUser(userDataFromServer);
+      })
+      .catch(console.log)
+      .finally(() => {
+        closeAllPopups();
+        inputRef.value = ''
       });
   }
 
@@ -97,6 +109,7 @@ function App() {
         <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}
+          onUpdateAvatar={handleUpdateAvatar}
         />
         <ImagePopup card={selectedCard} closeHandler={closeAllPopups} />
       </div>
