@@ -69,6 +69,10 @@ class Api {
       .then(res => this._parseResponse(res))
   }
 
+  changeCardLikeStatus(cardId, isCurrentlyLiked) {
+    return isCurrentlyLiked ? this.deleteLike(cardId) : this.putLike(cardId);
+  }
+
   updateAvatar(avatar) {
     return fetch(this._baseUrl + '/users/me/avatar', {
       headers: { ...this._headers, 'content-type': 'application/json' },
