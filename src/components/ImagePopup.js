@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import ImagePopupSpinner from './ImagePopupSpinner';
+import PopupSpinner from './PopupSpinner';
 
 function ImagePopup(props) {
   const { card, closeHandler } = props
@@ -37,7 +37,7 @@ function ImagePopup(props) {
             type="button"
             aria-label="закрыть"
           ></button>
-          {isImageLoading && <ImagePopupSpinner />}
+          {isImageLoading && <PopupSpinner />}
           <img className={imageClass} src={card.link} alt={card.name} onLoad={() =>{ setIsImageLoading(false); console.log('loaded')}} />
           
           <p className="popup__subtitle">{card.name}</p>
