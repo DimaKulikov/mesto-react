@@ -23,7 +23,7 @@ function Main(props) {
     const isLiked = card.likes.some((i) => i._id === currentUser._id);
 
     // Отправляем запрос в API и получаем обновлённые данные карточки
-    api.changeCardLikeStatus(card._id, isLiked).then((newCard) => {
+    return api.changeCardLikeStatus(card._id, isLiked).then((newCard) => {
       setCards((state) => state.map((c) => (c._id === card._id ? newCard : c)));
     });
   }
