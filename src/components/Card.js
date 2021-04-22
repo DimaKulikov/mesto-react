@@ -1,5 +1,6 @@
 import { useContext, useState } from "react";
 import CurrentUserContext from "../contexts/CurrentUserContext";
+import CardLikeSpinner from "./CardLikeSpinner";
 
 function Card({ cardData, onCardClick, onCardLike, onCardDelete }) {
   const currentUser = useContext(CurrentUserContext);
@@ -19,10 +20,11 @@ function Card({ cardData, onCardClick, onCardLike, onCardDelete }) {
 
   function handleLikeClick() {
     setLikeProcessing(true)
-    onCardLike(cardData).then((res) => {
-      setLikeProcessing(false)
-      console.log(res)
-    });
+    onCardLike(cardData)
+      .catch(console.log)
+      .finally(() => {
+        setLikeProcessing(false)
+      });
   }
 
   function handleDeleteClick() {
@@ -48,12 +50,17 @@ function Card({ cardData, onCardClick, onCardLike, onCardDelete }) {
       <div className="card__caption">
         <h2 className="card__title">{cardData.name}</h2>
         <div className="card__like-container">
-          <button
-            onClick={likeProcessing ? null : handleLikeClick}
-            className={likeBtnClassName}
-            type="button"
-            aria-label="лайк"
-          ></button>
+          {
+            likeProcessing
+            ? <CardLikeSpinner/>
+            : <button
+              onClick={handleLikeClick}
+              className={likeBtnClassName}
+              type="button"
+              aria-label="лайк"
+            ></button>
+          }
+          
           
           <span className="card__like-count">{cardData.likes.length}</span>
         </div>
