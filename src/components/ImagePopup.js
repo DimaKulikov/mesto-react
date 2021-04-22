@@ -1,7 +1,10 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import ImagePopupSpinner from './ImagePopupSpinner';
 
 function ImagePopup(props) {
   const { card, closeHandler } = props
+
+  const [isImageLoading, setIsImageLoading] = useState(true)
   
   useEffect(() => {
     function closeOnEsc(evt) {
@@ -18,6 +21,12 @@ function ImagePopup(props) {
     }
   }, [card, closeHandler])
 
+  useEffect(() => {
+    setIsImageLoading(true)
+  },[card])
+
+  const imageClass = `popup__image ${isImageLoading ? 'popup__image_hidden' : ''}`
+
   return (
     <div className={`popup popup_image ${card ? "popup_opened" : ""}`}>
       {card && (
@@ -28,7 +37,9 @@ function ImagePopup(props) {
             type="button"
             aria-label="закрыть"
           ></button>
-          <img className="popup__image" src={card.link} alt={card.name} />
+          {isImageLoading && <ImagePopupSpinner />}
+          <img className={imageClass} src={card.link} alt={card.name} onLoad={() =>{ setIsImageLoading(false); console.log('loaded')}} />
+          
           <p className="popup__subtitle">{card.name}</p>
         </div>
       )}
