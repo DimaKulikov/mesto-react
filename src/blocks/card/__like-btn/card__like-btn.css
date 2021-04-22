@@ -11,7 +11,7 @@
   padding: 0;
   display: block;
   cursor: pointer;
-  transition: opacity .1s, background-image .2s;
+  transition: opacity .1s;
 }
 
 .card__like-btn:hover {
