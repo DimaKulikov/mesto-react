@@ -1,5 +1,14 @@
 import avatar from "../images/avatar.png";
 
+const validatorOptions = {
+  formSelector: '.form',
+  inputSelector: '.form__input',
+  submitButtonSelector: '.form__submit',
+  inactiveButtonClass: 'form__submit_disabled',
+  inputErrorClass: 'form__input_type_error',
+  errorClass: 'form__error_active'
+}
+
 const defaultUser = {
   name: "Имя",
   about: "Описание",
@@ -7,4 +16,4 @@ const defaultUser = {
   _id: null,
   cohort: null,
 };
-export default defaultUser;
+export {defaultUser, validatorOptions};

@@ -55,7 +55,7 @@ function AddPlacePopup(props) {
         autoComplete="off"
       />
       <span className="form__error place-image-input-error"></span>
-      <button className="form__submit" type="submit">
+      <button className="form__submit form__submit_disabled" type="submit">
         {isSubmitting ? 'Сохранение...' : 'Создать' }
       </button>
     </PopupWithForm>

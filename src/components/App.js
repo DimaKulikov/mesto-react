@@ -11,7 +11,7 @@ import AddPlacePopup from "./AddPlacePopup";
 import api from "../utils/Api";
 
 import CurrentUserContext from "../contexts/CurrentUserContext";
-import defaultUser from "../utils/constants";
+import {defaultUser} from "../utils/constants";
 
 function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
