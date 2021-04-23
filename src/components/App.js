@@ -76,9 +76,9 @@ function App() {
     setDeletedCard(card)
   }
 
-  function handleCardDeleteComfifrm() {
-    return api.deleteCard(deletedCard._id).then(() => {
-      setCards((state) => state.filter((c) => c._id !== deletedCard._id));
+  function handleCardDeleteComfifrmed(card) {
+    return api.deleteCard(card._id).then(() => {
+      setCards((state) => state.filter((c) => c._id !== card._id));
     });
   }
 
@@ -135,7 +135,7 @@ function App() {
         <PlaceRemoveConfirmPopup
           isOpen={isPlaceRemoveConfirmPopupOpen}
           onClose={closeAllPopups}
-          onDeleteConfirm={handleCardDeleteComfifrm}
+          onDeleteConfirm={handleCardDeleteComfifrmed}
           deletedCard={deletedCard}
         />
       </div>

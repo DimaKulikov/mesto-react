@@ -3,7 +3,7 @@ import { useState } from 'react'
 import PopupWithForm from "./PopupWithForm";
 
 function PlaceRemoveConfirmPopup(props) {
-  const { isOpen, onClose, onDeleteConfirm } = props;
+  const { isOpen, onClose, onDeleteConfirm, deletedCard } = props;
 
   
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -11,7 +11,7 @@ function PlaceRemoveConfirmPopup(props) {
   function handleSubmit(e) {
     e.preventDefault()
     setIsSubmitting(true)
-    onDeleteConfirm()
+    onDeleteConfirm(deletedCard)
       .catch(console.error)
       .finally(() => {
         onClose();
