@@ -4,7 +4,7 @@ import FormValidator from "../utils/FormValidator";
 import Popup from "./Popup";
 
 function PopupWithForm(props) {
-  const { name, title, isOpen, closeHandler, onSubmit } = props;
+  const { name, title, isOpen, onClose, onSubmit } = props;
 
 
   useEffect(() => {
@@ -17,7 +17,7 @@ function PopupWithForm(props) {
   const formElement = useRef()
 
   return (
-    <Popup {...{name, isOpen, closeHandler}}>
+    <Popup {...{name, isOpen, onClose}}>
       <form onSubmit={onSubmit} className="form" name={name} noValidate ref={formElement}>
         <h2 className="form__title">{title}</h2>
         {props.children}

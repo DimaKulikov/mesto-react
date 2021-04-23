@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import Header from "./Header";
 import Main from "./Main";
@@ -46,7 +46,7 @@ function App() {
       .then((userDataFromServer) => {
         setCurrentUser(userDataFromServer);
       })
-      .catch(err => console.log('Ошибка при обновлении информации о пользователе: ', err))
+      .catch(err => console.error('Ошибка при обновлении информации о пользователе: ', err))
   }
 
   function handleUpdateAvatar(newUserData) {
@@ -54,7 +54,7 @@ function App() {
       .then((userDataFromServer) => {
         setCurrentUser(userDataFromServer);
       })
-      .catch(err => console.log('Ошибка при обновлении аватара: ', err))      
+      .catch(err => console.error('Ошибка при обновлении аватара: ', err))      
   }
 
   function handleCardLike(card) {
@@ -87,7 +87,7 @@ function App() {
         setCurrentUser(userData);
         setCards(cardsArray)
       })
-      .catch(console.log)
+      .catch(console.error)
     }, []);
 
   return (
@@ -103,9 +103,7 @@ function App() {
           onCardLike={handleCardLike}
           onCardDelete={handleCardDelete}
         />
-
         <Footer />
-
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
@@ -116,13 +114,12 @@ function App() {
           onClose={closeAllPopups}
           onAddPlace={handleAddPlaceSubmit}
         />
-
         <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}
           onUpdateAvatar={handleUpdateAvatar}
         />
-        <ImagePopup card={selectedCard} closeHandler={closeAllPopups} />
+        <ImagePopup card={selectedCard} onClose={closeAllPopups} />
       </div>
     </CurrentUserContext.Provider>
   );

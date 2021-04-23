@@ -3,27 +3,27 @@ import CurrentUserContext from "../contexts/CurrentUserContext";
 import CardLikeSpinner from "./CardLikeSpinner";
 import CardRemoveSpinner from "./CardRemoveSpinner";
 
-function Card({ cardData, onCardClick, onCardLike, onCardDelete }) {
+function Card({ card, onCardClick, onCardLike, onCardDelete }) {
   const currentUser = useContext(CurrentUserContext);
 
   const [likeProcessing, setLikeProcessing] = useState(false)
   const [deleteProcessing, setDeleteProcessing] = useState(false)
 
-  const isOwn = currentUser._id === cardData.owner._id;
-  const isLiked = cardData.likes.some((i) => i._id === currentUser._id);
+  const isOwn = currentUser._id === card.owner._id;
+  const isLiked = card.likes.some((i) => i._id === currentUser._id);
   const likeBtnClassName = `card__like-btn 
     ${isLiked ? "card__like-btn_active" : ""}
     ${likeProcessing ? "card__like-btn_disabled" : ""}
   }`;
 
-  function handleClick() {
-    onCardClick(cardData);
+  function handleImageClick() {
+    onCardClick(card);
   }
 
   function handleLikeClick() {
     setLikeProcessing(true)
-    onCardLike(cardData)
-      .catch(console.log)
+    onCardLike(card)
+      .catch(console.error)
       .finally(() => {
         setLikeProcessing(false)
       });
@@ -31,8 +31,8 @@ function Card({ cardData, onCardClick, onCardLike, onCardDelete }) {
 
   function handleDeleteClick() {
     setDeleteProcessing(true)
-    onCardDelete(cardData)
-      .catch(err => {console.log(err); setDeleteProcessing(false)})
+    onCardDelete(card)
+      .catch(err => {console.error(err); setDeleteProcessing(false)})
   }
 
   const cardClassName = `card ${deleteProcessing ? 'card_faded' : ''}`
@@ -48,12 +48,12 @@ function Card({ cardData, onCardClick, onCardLike, onCardDelete }) {
       }
       <img
         className="card__pic"
-        src={cardData.link}
-        alt={cardData.name}
-        onClick={handleClick}
+        src={card.link}
+        alt={card.name}
+        onClick={handleImageClick}
       />
       <div className="card__caption">
-        <h2 className="card__title">{cardData.name}</h2>
+        <h2 className="card__title">{card.name}</h2>
         <div className="card__like-container">
           {
             likeProcessing
@@ -67,7 +67,7 @@ function Card({ cardData, onCardClick, onCardLike, onCardDelete }) {
           }
           
           
-          <span className="card__like-count">{cardData.likes.length}</span>
+          <span className="card__like-count">{card.likes.length}</span>
         </div>
       </div>
     </li>

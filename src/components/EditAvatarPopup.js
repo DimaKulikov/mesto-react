@@ -23,9 +23,8 @@ function EditAvatarPopup(props) {
     <PopupWithForm
       name="avatar-edit"
       title="Обновить аватар"
-      isOpen={isOpen}
-      closeHandler={onClose}
       onSubmit={handleSubmit}
+      {...{isOpen, onClose}}
     >
       <input
         ref={avatarLinkInputRef}

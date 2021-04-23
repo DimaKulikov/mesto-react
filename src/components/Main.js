@@ -39,11 +39,11 @@ function Main(props) {
         <div className="cards__spinner"></div>
         <ul className="cards__list">
 
-          {cards.map((cardData => {
+          {cards.map((card => {
             return (
               <Card
-                key={cardData._id}                
-                {...{cardData,onCardClick,onCardLike,onCardDelete}}                
+                key={card._id}                
+                {...{card,onCardClick,onCardLike,onCardDelete}}                
               />
             );
           }))}

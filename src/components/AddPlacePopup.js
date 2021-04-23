@@ -8,7 +8,6 @@ function AddPlacePopup(props) {
   const [link, setLink] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
 
-
   function handleSubmit(e) {
     setIsSubmitting(true)
     e.preventDefault()
@@ -25,9 +24,8 @@ function AddPlacePopup(props) {
     <PopupWithForm
       name="place-add"
       title="Новое место"
-      isOpen={isOpen}
-      closeHandler={onClose}
       onSubmit={handleSubmit}
+      {...{isOpen, onClose}}
     >
       <input
         value={name}

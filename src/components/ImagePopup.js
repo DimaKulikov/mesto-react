@@ -2,14 +2,14 @@ import { useEffect, useState } from 'react';
 import PopupSpinner from './PopupSpinner';
 
 function ImagePopup(props) {
-  const { card, closeHandler } = props
+  const { card, onClose } = props
 
   const [isImageLoading, setIsImageLoading] = useState(true)
   
   useEffect(() => {
     function closeOnEsc(evt) {
       if (evt.key === 'Escape') {
-        closeHandler()
+        onClose()
       }
     }
 
@@ -19,26 +19,26 @@ function ImagePopup(props) {
     return () => {
       document.removeEventListener('keydown', closeOnEsc)
     }
-  }, [card, closeHandler])
+  }, [card, onClose])
 
   useEffect(() => {
     setIsImageLoading(true)
   },[card])
 
-  const imageClass = `popup__image ${isImageLoading ? 'popup__image_hidden' : ''}`
+  const imageClassName = `popup__image ${isImageLoading ? 'popup__image_hidden' : ''}`
 
   return (
     <div className={`popup popup_image ${card ? "popup_opened" : ""}`}>
       {card && (
         <div className="popup__container">
           <button
-            onClick={closeHandler}
+            onClick={onClose}
             className="popup__close-btn"
             type="button"
             aria-label="закрыть"
           ></button>
           {isImageLoading && <PopupSpinner />}
-          <img className={imageClass} src={card.link} alt={card.name} onLoad={() =>{ setIsImageLoading(false)}} />
+          <img className={imageClassName} src={card.link} alt={card.name} onLoad={() =>{ setIsImageLoading(false)}} />
           
           <p className="popup__subtitle">{card.name}</p>
         </div>

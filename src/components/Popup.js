@@ -2,12 +2,12 @@ import { useEffect } from 'react'
 
 function Popup(props) {
 
-  const { closeHandler, isOpen, name } = props
+  const { onClose, isOpen, name } = props
   
   useEffect(() => {
     function closeOnEsc(evt) {
       if (evt.key === "Escape") {
-        closeHandler();
+        onClose();
       }
     }
 
@@ -17,7 +17,7 @@ function Popup(props) {
     return () => {
       document.removeEventListener("keydown", closeOnEsc);
     };
-  }, [isOpen, closeHandler]);
+  }, [isOpen, onClose]);
 
   
   const popupClassName = `popup popup_${name} ${isOpen ? "popup_opened" : ""}`;
@@ -26,7 +26,7 @@ function Popup(props) {
     <div className={popupClassName}>
       <div className="popup__container">
         <button
-          onClick={closeHandler}
+          onClick={onClose}
           className="popup__close-btn"
           type="button"
           aria-label="закрыть"
