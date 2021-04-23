@@ -12,20 +12,25 @@ import api from "../utils/Api";
 
 import CurrentUserContext from "../contexts/CurrentUserContext";
 import {defaultUser} from "../utils/constants";
+import PlaceRemoveConfirmPopup from "./PlaceRemoveConfirmPopup";
 
 function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
-
+  const [isPlaceRemoveConfirmPopupOpen, setIsPlaceRemoveConfirmPopupOpen] = useState(false);
   const [cards, setCards] = useState([])
   const [selectedCard, setSelectedCard] = useState();
+  const [deletedCard, setDeletedCard] = useState()
   const [currentUser, setCurrentUser] = useState(defaultUser);
+
+
 
   function closeAllPopups() {
     setIsEditAvatarPopupOpen(false);
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
+    setIsPlaceRemoveConfirmPopupOpen(false);
     setSelectedCard();
   }
 
@@ -65,9 +70,15 @@ function App() {
       });
   }
 
+
   function handleCardDelete(card) {
-    return api.deleteCard(card._id).then(() => {
-      setCards((state) => state.filter((c) => c._id !== card._id));
+    setIsPlaceRemoveConfirmPopupOpen(true)
+    setDeletedCard(card)
+  }
+
+  function handleCardDeleteComfifrm() {
+    return api.deleteCard(deletedCard._id).then(() => {
+      setCards((state) => state.filter((c) => c._id !== deletedCard._id));
     });
   }
 
@@ -120,6 +131,13 @@ function App() {
           onUpdateAvatar={handleUpdateAvatar}
         />
         <ImagePopup card={selectedCard} onClose={closeAllPopups} />
+
+        <PlaceRemoveConfirmPopup
+          isOpen={isPlaceRemoveConfirmPopupOpen}
+          onClose={closeAllPopups}
+          onDeleteConfirm={handleCardDeleteComfifrm}
+          deletedCard={deletedCard}
+        />
       </div>
     </CurrentUserContext.Provider>
   );
