@@ -91,7 +91,10 @@ function App() {
       .then(addedCard => setCards([addedCard, ...cards]))
       .catch(err => console.error('Ошибка при добавлении карточки: ', err))
   }
-
+  /**
+   * Effects
+   */
+  // fetch api data on mount
   useEffect(() => {
     Promise.all([api.getUserInfo(), api.getInitialCards()])
       .then(([userData, cardsArray]) => {
@@ -101,17 +104,18 @@ function App() {
       .catch(console.error)
     }, []);
 
-    useEffect(()=>{
-      function handleCardSwitch(e) {
-        if (isImagePopupOpen) {
-          const currentCardIndex = cards.indexOf(selectedCard)
-          if (e.key === 'ArrowLeft' && currentCardIndex > 0) setSelectedCard(cards[currentCardIndex - 1])
-          if (e.key === 'ArrowRight' && currentCardIndex < cards.length - 1) setSelectedCard(cards[currentCardIndex + 1])
-        }
-      }      
-      document.addEventListener('keydown', handleCardSwitch)
-      return () => {document.removeEventListener('keydown', handleCardSwitch)}
-    },[isImagePopupOpen, cards, selectedCard])
+  // change images with arrowkeys in image popup  
+  useEffect(()=>{
+    function handleCardSwitch(e) {
+      if (isImagePopupOpen) {
+        const currentCardIndex = cards.indexOf(selectedCard)
+        if (e.key === 'ArrowLeft' && currentCardIndex > 0) setSelectedCard(cards[currentCardIndex - 1])
+        if (e.key === 'ArrowRight' && currentCardIndex < cards.length - 1) setSelectedCard(cards[currentCardIndex + 1])
+      }
+    }      
+    document.addEventListener('keydown', handleCardSwitch)
+    return () => {document.removeEventListener('keydown', handleCardSwitch)}
+  },[isImagePopupOpen, cards, selectedCard])
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
