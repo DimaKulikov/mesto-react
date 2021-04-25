@@ -25,8 +25,6 @@ function App() {
   const [deletedCard, setDeletedCard] = useState()
   const [currentUser, setCurrentUser] = useState(defaultUser);
 
-
-
   function closeAllPopups() {
     setIsEditAvatarPopupOpen(false);
     setIsEditProfilePopupOpen(false);
@@ -102,6 +100,18 @@ function App() {
       })
       .catch(console.error)
     }, []);
+
+    useEffect(()=>{
+      function handleCardSwitch(e) {
+        if (isImagePopupOpen) {
+          const currentCardIndex = cards.indexOf(selectedCard)
+          if (e.key === 'ArrowLeft' && currentCardIndex > 0) setSelectedCard(cards[currentCardIndex - 1])
+          if (e.key === 'ArrowRight' && currentCardIndex < cards.length - 1) setSelectedCard(cards[currentCardIndex + 1])
+        }
+      }      
+      document.addEventListener('keydown', handleCardSwitch)
+      return () => {document.removeEventListener('keydown', handleCardSwitch)}
+    },[isImagePopupOpen, cards, selectedCard])
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
