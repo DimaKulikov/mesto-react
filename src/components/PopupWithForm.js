@@ -6,13 +6,10 @@ import Popup from "./Popup";
 function PopupWithForm(props) {
   const { name, title, isOpen, onClose, onSubmit } = props;
 
-
   useEffect(() => {
     const validator = new FormValidator(validatorOptions, formElement.current)
     validator.enableValidation()
   },[])
-
-
 
   const formElement = useRef()
 

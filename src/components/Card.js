@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import CurrentUserContext from "../contexts/CurrentUserContext";
-import CardLikeSpinner from "./CardLikeSpinner";
+import {CardLikeSpinner} from "./CardLikeSpinner";
 
 function Card({ card, onCardClick, onCardLike, onCardDelete }) {
   const currentUser = useContext(CurrentUserContext);

@@ -1,8 +1,7 @@
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import Loader from "react-loader-spinner";
 
-export default function CardLikeSpinner(props) {
-  return (
+export const CardLikeSpinner = () => (
     <Loader
       type="TailSpin"
       color="#000"
@@ -10,4 +9,3 @@ export default function CardLikeSpinner(props) {
       width={20}
     />
   );
-}

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import PopupSpinner from './PopupSpinner';
+import {PopupSpinner} from './PopupSpinner';
 import Popup from './Popup'
 
 function ImagePopup(props) {
@@ -20,7 +20,6 @@ function ImagePopup(props) {
 
       <p className="popup__subtitle">{card?.name}</p>
     </Popup>
-
   );
 }
 
