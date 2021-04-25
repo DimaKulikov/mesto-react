@@ -19,6 +19,7 @@ function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isPlaceRemoveConfirmPopupOpen, setIsPlaceRemoveConfirmPopupOpen] = useState(false);
+  const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
   const [cards, setCards] = useState([])
   const [selectedCard, setSelectedCard] = useState();
   const [deletedCard, setDeletedCard] = useState()
@@ -31,7 +32,7 @@ function App() {
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setIsPlaceRemoveConfirmPopupOpen(false);
-    setSelectedCard();
+    setIsImagePopupOpen(false);
   }
 
   function handleEditAvatarClick() {
@@ -84,6 +85,7 @@ function App() {
 
   function handleCardClick(cardData) {
     setSelectedCard(cardData);
+    setIsImagePopupOpen(true)
   }
 
   function handleAddPlaceSubmit(newCardData) {
@@ -104,17 +106,19 @@ function App() {
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
-        <Header />
-        <Main
-          {...{cards}}
-          onEditAvatar={handleEditAvatarClick}
-          onEditProfile={handleEditProfileClick}
-          onAddPlace={handleAddPlaceClick}
-          onCardClick={handleCardClick}
-          onCardLike={handleCardLike}
-          onCardDelete={handleCardDelete}
-        />
-        <Footer />
+        <div className="page__content">
+          <Header />
+          <Main
+            {...{cards}}
+            onEditAvatar={handleEditAvatarClick}
+            onEditProfile={handleEditProfileClick}
+            onAddPlace={handleAddPlaceClick}
+            onCardClick={handleCardClick}
+            onCardLike={handleCardLike}
+            onCardDelete={handleCardDelete}
+          />
+          <Footer />
+        </div>
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
@@ -130,7 +134,7 @@ function App() {
           onClose={closeAllPopups}
           onUpdateAvatar={handleUpdateAvatar}
         />
-        <ImagePopup card={selectedCard} onClose={closeAllPopups} />
+        <ImagePopup card={selectedCard} onClose={closeAllPopups} isOpen={isImagePopupOpen} />
 
         <PlaceRemoveConfirmPopup
           isOpen={isPlaceRemoveConfirmPopupOpen}
