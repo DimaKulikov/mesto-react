@@ -17,7 +17,6 @@ function ImagePopup(props) {
     <Popup name="image" {...{isOpen, onClose}}>
       {isImageLoading && <PopupSpinner />}
       <img className={imageClassName} src={card?.link} alt={card?.name} onLoad={() => { setIsImageLoading(false) }} />
-
       <p className="popup__subtitle">{card?.name}</p>
     </Popup>
   );
