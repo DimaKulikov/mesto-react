@@ -1,7 +1,8 @@
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import Loader from "react-loader-spinner";
 
-export const PopupSpinner = () => (
+export const PopupSpinner = () => {
+  return (
   <Loader
     className="popup__spinner"
     type="TailSpin"
@@ -9,4 +10,4 @@ export const PopupSpinner = () => (
     height={50}
     width={50}
   />
-);
+);}

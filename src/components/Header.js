@@ -1,6 +1,7 @@
 import logo from '../images/logo.svg'
 
-export const Header = () => (
+export const Header = () => {
+  return (
   <header className="header page__header">
     <img
       className="logo"
@@ -8,4 +9,4 @@ export const Header = () => (
       alt="логотип Место"
     />
   </header>
-)
+)}
