@@ -10,7 +10,7 @@ function Card({ card, onCardClick, onCardLike, onCardDelete }) {
     ${isLiked ? "card__like-btn_active" : ""}
   }`;
 
-  function handleImageClick() {
+  function handleClick() {
     onCardClick(card);
   }
 
@@ -35,7 +35,7 @@ function Card({ card, onCardClick, onCardLike, onCardDelete }) {
         className="card__pic"
         src={card.link}
         alt={card.name}
-        onClick={handleImageClick}
+        onClick={handleClick}
       />
       <div className="card__caption">
         <h2 className="card__title">{card.name}</h2>
