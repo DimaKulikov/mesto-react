@@ -10,11 +10,14 @@ function Popup(props) {
         onClose();
       }
     }
+    const pageContent = document.querySelector('.page__content')
     if (isOpen) {
       document.addEventListener("keydown", closeOnEsc);
-    }
+      pageContent.classList.add('page__content_blur')
+    }    
     return () => {
       document.removeEventListener("keydown", closeOnEsc);
+      pageContent.classList.remove('page__content_blur')
     };
   }, [isOpen, onClose]);
 
