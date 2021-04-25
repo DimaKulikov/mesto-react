@@ -8,7 +8,7 @@ import EditAvatarPopup from "./EditAvatarPopup";
 import EditProfilePopup from "./EditProfilePopup";
 import AddPlacePopup from "./AddPlacePopup";
 
-import api from "../utils/Api";
+import api from "../utils/api";
 
 import CurrentUserContext from "../contexts/CurrentUserContext";
 import {defaultUser} from "../utils/constants";
