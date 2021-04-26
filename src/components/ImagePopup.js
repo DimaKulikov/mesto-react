@@ -1,33 +1,41 @@
 import React from 'react';
 import { useEffect, useRef, useState } from 'react';
 
-import {PopupSpinner} from './PopupSpinner';
-import Popup from './Popup'
+import { PopupSpinner } from './PopupSpinner';
+import Popup from './Popup';
 
 function ImagePopup(props) {
-  const { card, onClose, isOpen } = props
+  const { card, onClose, isOpen } = props;
 
-  const [isImageLoading, setIsImageLoading] = useState(true)
+  const [isImageLoading, setIsImageLoading] = useState(true);
 
-  const img = useRef()
-  
+  const img = useRef();
+
   useEffect(() => {
-    if(!img.current.complete) {
-      setIsImageLoading(true)
+    if (!img.current.complete) {
+      setIsImageLoading(true);
     }
-  },[card])
+  }, [card]);
 
-  
-
-  const imageClassName = `popup__image ${isImageLoading ? 'popup__image_hidden' : ''}`
+  const imageClassName = `popup__image ${
+    isImageLoading ? 'popup__image_hidden' : ''
+  }`;
 
   return (
-    <Popup name="image" {...{isOpen, onClose}}>
+    <Popup name='image' {...{ isOpen, onClose }}>
       {isImageLoading && <PopupSpinner />}
-      <img ref={ img } className={imageClassName} src={card?.link} alt={card?.name} onLoad={() => { setIsImageLoading(false) }} />
-      <p className="popup__subtitle">{card?.name}</p>
+      <img
+        ref={img}
+        className={imageClassName}
+        src={card?.link}
+        alt={card?.name}
+        onLoad={() => {
+          setIsImageLoading(false);
+        }}
+      />
+      <p className='popup__subtitle'>{card?.name}</p>
     </Popup>
   );
 }
 
-export default ImagePopup
+export default ImagePopup;

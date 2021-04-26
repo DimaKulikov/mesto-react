@@ -1,29 +1,32 @@
 import React from 'react';
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
-import {Header} from "./Header";
-import Main from "./Main";
-import {Footer} from "./Footer";
-import ImagePopup from "./ImagePopup";
-import EditAvatarPopup from "./EditAvatarPopup";
-import EditProfilePopup from "./EditProfilePopup";
-import AddPlacePopup from "./AddPlacePopup";
-import PlaceRemoveConfirmPopup from "./PlaceRemoveConfirmPopup";
+import { Header } from './Header';
+import Main from './Main';
+import { Footer } from './Footer';
+import ImagePopup from './ImagePopup';
+import EditAvatarPopup from './EditAvatarPopup';
+import EditProfilePopup from './EditProfilePopup';
+import AddPlacePopup from './AddPlacePopup';
+import PlaceRemoveConfirmPopup from './PlaceRemoveConfirmPopup';
 
-import CurrentUserContext from "../contexts/CurrentUserContext";
+import CurrentUserContext from '../contexts/CurrentUserContext';
 
-import api from "../utils/api";
-import {defaultUser} from "../utils/constants";
+import api from '../utils/api';
+import { defaultUser } from '../utils/constants';
 
 function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
-  const [isPlaceRemoveConfirmPopupOpen, setIsPlaceRemoveConfirmPopupOpen] = useState(false);
+  const [
+    isPlaceRemoveConfirmPopupOpen,
+    setIsPlaceRemoveConfirmPopupOpen,
+  ] = useState(false);
   const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
-  const [cards, setCards] = useState([])
+  const [cards, setCards] = useState([]);
   const [selectedCard, setSelectedCard] = useState();
-  const [deletedCard, setDeletedCard] = useState()
+  const [deletedCard, setDeletedCard] = useState();
   const [currentUser, setCurrentUser] = useState(defaultUser);
 
   function closeAllPopups() {
@@ -47,33 +50,35 @@ function App() {
   }
 
   function handleUpdateUser(newUserData) {
-    return api.updateUserInfo(newUserData)
+    return api
+      .updateUserInfo(newUserData)
       .then((userDataFromServer) => {
         setCurrentUser(userDataFromServer);
       })
-      .catch(err => console.error('Ошибка при обновлении информации о пользователе: ', err))
+      .catch((err) =>
+        console.error('Ошибка при обновлении информации о пользователе: ', err)
+      );
   }
 
   function handleUpdateAvatar(newUserData) {
-    return api.updateAvatar(newUserData)
+    return api
+      .updateAvatar(newUserData)
       .then((userDataFromServer) => {
         setCurrentUser(userDataFromServer);
       })
-      .catch(err => console.error('Ошибка при обновлении аватара: ', err))      
+      .catch((err) => console.error('Ошибка при обновлении аватара: ', err));
   }
 
   function handleCardLike(card) {
     const isLiked = card.likes.some((i) => i._id === currentUser._id);
-    return api.changeCardLikeStatus(card._id, isLiked)
-      .then((newCard) => {
-        setCards((state) => state.map((c) => (c._id === card._id ? newCard : c)));
-      });
+    return api.changeCardLikeStatus(card._id, isLiked).then((newCard) => {
+      setCards((state) => state.map((c) => (c._id === card._id ? newCard : c)));
+    });
   }
 
-
   function handleCardDelete(card) {
-    setIsPlaceRemoveConfirmPopupOpen(true)
-    setDeletedCard(card)
+    setIsPlaceRemoveConfirmPopupOpen(true);
+    setDeletedCard(card);
   }
 
   function handleCardDeleteComfifrmed(card) {
@@ -84,13 +89,14 @@ function App() {
 
   function handleCardClick(cardData) {
     setSelectedCard(cardData);
-    setIsImagePopupOpen(true)
+    setIsImagePopupOpen(true);
   }
 
   function handleAddPlaceSubmit(newCardData) {
-    return api.addCard(newCardData)
-      .then(addedCard => setCards([addedCard, ...cards]))
-      .catch(err => console.error('Ошибка при добавлении карточки: ', err))
+    return api
+      .addCard(newCardData)
+      .then((addedCard) => setCards([addedCard, ...cards]))
+      .catch((err) => console.error('Ошибка при добавлении карточки: ', err));
   }
   /**
    * Effects
@@ -100,31 +106,35 @@ function App() {
     Promise.all([api.getUserInfo(), api.getInitialCards()])
       .then(([userData, cardsArray]) => {
         setCurrentUser(userData);
-        setCards(cardsArray)
+        setCards(cardsArray);
       })
-      .catch(console.error)
-    }, []);
+      .catch(console.error);
+  }, []);
 
-  // change images with arrowkeys in image popup  
-  useEffect(()=>{
+  // change images with arrowkeys in image popup
+  useEffect(() => {
     function handleCardSwitch(e) {
       if (isImagePopupOpen) {
-        const currentCardIndex = cards.indexOf(selectedCard)
-        if (e.key === 'ArrowLeft' && currentCardIndex > 0) setSelectedCard(cards[currentCardIndex - 1])
-        if (e.key === 'ArrowRight' && currentCardIndex < cards.length - 1) setSelectedCard(cards[currentCardIndex + 1])
+        const currentCardIndex = cards.indexOf(selectedCard);
+        if (e.key === 'ArrowLeft' && currentCardIndex > 0)
+          setSelectedCard(cards[currentCardIndex - 1]);
+        if (e.key === 'ArrowRight' && currentCardIndex < cards.length - 1)
+          setSelectedCard(cards[currentCardIndex + 1]);
       }
-    }      
-    document.addEventListener('keydown', handleCardSwitch)
-    return () => {document.removeEventListener('keydown', handleCardSwitch)}
-  },[isImagePopupOpen, cards, selectedCard])
+    }
+    document.addEventListener('keydown', handleCardSwitch);
+    return () => {
+      document.removeEventListener('keydown', handleCardSwitch);
+    };
+  }, [isImagePopupOpen, cards, selectedCard]);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
-      <div className="page">
-        <div className="page__content">
+      <div className='page'>
+        <div className='page__content'>
           <Header />
           <Main
-            {...{cards}}
+            {...{ cards }}
             onEditAvatar={handleEditAvatarClick}
             onEditProfile={handleEditProfileClick}
             onAddPlace={handleAddPlaceClick}
@@ -149,7 +159,11 @@ function App() {
           onClose={closeAllPopups}
           onUpdateAvatar={handleUpdateAvatar}
         />
-        <ImagePopup card={selectedCard} onClose={closeAllPopups} isOpen={isImagePopupOpen} />
+        <ImagePopup
+          card={selectedCard}
+          onClose={closeAllPopups}
+          isOpen={isImagePopupOpen}
+        />
 
         <PlaceRemoveConfirmPopup
           isOpen={isPlaceRemoveConfirmPopupOpen}

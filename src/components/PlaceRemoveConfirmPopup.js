@@ -1,22 +1,21 @@
-import { useState } from 'react'
+import { useState } from 'react';
 
-import PopupWithForm from "./PopupWithForm";
+import PopupWithForm from './PopupWithForm';
 
 function PlaceRemoveConfirmPopup(props) {
   const { isOpen, onClose, onDeleteConfirm, deletedCard } = props;
 
-  
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   function handleSubmit(e) {
-    e.preventDefault()
-    setIsSubmitting(true)
+    e.preventDefault();
+    setIsSubmitting(true);
     onDeleteConfirm(deletedCard)
       .catch(console.error)
       .finally(() => {
         onClose();
-        setIsSubmitting(false)
-      })
+        setIsSubmitting(false);
+      });
   }
 
   return (
@@ -26,8 +25,7 @@ function PlaceRemoveConfirmPopup(props) {
       onSubmit={handleSubmit}
       {...{ isOpen, onClose }}
     >
-      
-      <button className="form__submit" type="submit">
+      <button className='form__submit' type='submit'>
         {isSubmitting ? 'Удаление...' : 'Да'}
       </button>
     </PopupWithForm>
