@@ -1,3 +1,4 @@
+import React from 'react';
 import { useEffect, useState } from "react";
 
 import {Header} from "./Header";
@@ -7,12 +8,12 @@ import ImagePopup from "./ImagePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import EditProfilePopup from "./EditProfilePopup";
 import AddPlacePopup from "./AddPlacePopup";
-
-import api from "../utils/api";
+import PlaceRemoveConfirmPopup from "./PlaceRemoveConfirmPopup";
 
 import CurrentUserContext from "../contexts/CurrentUserContext";
+
+import api from "../utils/api";
 import {defaultUser} from "../utils/constants";
-import PlaceRemoveConfirmPopup from "./PlaceRemoveConfirmPopup";
 
 function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
