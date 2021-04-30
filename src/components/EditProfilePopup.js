@@ -20,16 +20,20 @@ function EditProfilePopup(props) {
     onUpdateUser({
       name,
       about: description,
-    }).finally(() => {
-      onClose();
-      setIsSubmitting(false);
-    });
+    })
+      .then(onClose)
+      .catch((err) =>
+        console.error('Ошибка при обновлении информации о пользователе: ', err)
+      )
+      .finally(() => {        
+        setIsSubmitting(false);
+      });
   }
 
   useEffect(() => {
     setName(currentUser.name);
     setDescription(currentUser.about);
-  }, [currentUser]);
+  }, [currentUser, isOpen]);
 
   return (
     <PopupWithForm

@@ -50,14 +50,9 @@ function App() {
   }
 
   function handleUpdateUser(newUserData) {
-    return api
-      .updateUserInfo(newUserData)
-      .then((userDataFromServer) => {
-        setCurrentUser(userDataFromServer);
-      })
-      .catch((err) =>
-        console.error('Ошибка при обновлении информации о пользователе: ', err)
-      );
+    return api.updateUserInfo(newUserData).then((userDataFromServer) => {
+      setCurrentUser(userDataFromServer);
+    });
   }
 
   function handleUpdateAvatar(newUserData) {
@@ -65,15 +60,19 @@ function App() {
       .updateAvatar(newUserData)
       .then((userDataFromServer) => {
         setCurrentUser(userDataFromServer);
-      })
-      .catch((err) => console.error('Ошибка при обновлении аватара: ', err));
+      });
   }
 
   function handleCardLike(card) {
     const isLiked = card.likes.some((i) => i._id === currentUser._id);
-    return api.changeCardLikeStatus(card._id, isLiked).then((newCard) => {
-      setCards((state) => state.map((c) => (c._id === card._id ? newCard : c)));
-    });
+    api
+      .changeCardLikeStatus(card._id, isLiked)
+      .then((newCard) => {
+        setCards((state) =>
+          state.map((c) => (c._id === card._id ? newCard : c))
+        );
+      })
+      .catch((err) => console.error('Ошибка при обновлении лайка: ', err));
   }
 
   function handleCardDelete(card) {
@@ -96,7 +95,6 @@ function App() {
     return api
       .addCard(newCardData)
       .then((addedCard) => setCards([addedCard, ...cards]))
-      .catch((err) => console.error('Ошибка при добавлении карточки: ', err));
   }
   /**
    * Effects

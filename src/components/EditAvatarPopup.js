@@ -13,11 +13,15 @@ function EditAvatarPopup(props) {
   function handleSubmit(e) {
     setIsSubmitting(true);
     e.preventDefault();
-    onUpdateAvatar({ avatar: avatarLinkInputRef.current.value }).finally(() => {
-      onClose();
-      avatarLinkInputRef.current.value = '';
-      setIsSubmitting(false);
-    });
+    onUpdateAvatar({ avatar: avatarLinkInputRef.current.value })
+      .then(() => {
+        onClose();
+        avatarLinkInputRef.current.value = '';
+      })
+      .catch((err) => console.error('Ошибка при обновлении аватара: ', err))
+      .finally(() => {
+        setIsSubmitting(false);
+      });
   }
 
   return (

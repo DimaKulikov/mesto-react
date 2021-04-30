@@ -11,9 +11,9 @@ function PlaceRemoveConfirmPopup(props) {
     e.preventDefault();
     setIsSubmitting(true);
     onDeleteConfirm(deletedCard)
-      .catch(console.error)
+      .then(onClose)
+      .catch((err) => console.error('Ошибка при удалении карточки: ', err))
       .finally(() => {
-        onClose();
         setIsSubmitting(false);
       });
   }

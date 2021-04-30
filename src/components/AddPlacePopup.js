@@ -13,12 +13,16 @@ function AddPlacePopup(props) {
   function handleSubmit(e) {
     setIsSubmitting(true);
     e.preventDefault();
-    onAddPlace({ name, link }).finally(() => {
-      onClose();
-      setIsSubmitting(false);
-      setName('');
-      setLink('');
-    });
+    onAddPlace({ name, link })
+      .then(() => {
+        onClose();
+        setName('');
+        setLink('');
+      })
+      .catch((err) => console.error('Ошибка при добавлении карточки: ', err))      
+      .finally(() => {
+        setIsSubmitting(false);
+      });
   }
 
   return (
