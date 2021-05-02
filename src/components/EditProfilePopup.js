@@ -22,9 +22,6 @@ function EditProfilePopup(props) {
       about: description,
     })
       .then(onClose)
-      .catch((err) =>
-        console.error('Ошибка при обновлении информации о пользователе: ', err)
-      )
       .finally(() => {        
         setIsSubmitting(false);
       });

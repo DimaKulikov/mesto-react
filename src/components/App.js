@@ -52,7 +52,10 @@ function App() {
   function handleUpdateUser(newUserData) {
     return api.updateUserInfo(newUserData).then((userDataFromServer) => {
       setCurrentUser(userDataFromServer);
-    });
+    })
+    .catch((err) =>
+      console.error('Ошибка при обновлении информации о пользователе: ', err)
+    )
   }
 
   function handleUpdateAvatar(newUserData) {
@@ -60,7 +63,8 @@ function App() {
       .updateAvatar(newUserData)
       .then((userDataFromServer) => {
         setCurrentUser(userDataFromServer);
-      });
+      })
+      .catch((err) => console.error('Ошибка при обновлении аватара: ', err));
   }
 
   function handleCardLike(card) {
@@ -81,9 +85,11 @@ function App() {
   }
 
   function handleCardDeleteComfifrmed(card) {
-    return api.deleteCard(card._id).then(() => {
-      setCards((state) => state.filter((c) => c._id !== card._id));
-    });
+    return api.deleteCard(card._id)
+      .then(() => {
+        setCards((state) => state.filter((c) => c._id !== card._id));
+      })
+      .catch((err) => console.error('Ошибка при удалении карточки: ', err));
   }
 
   function handleCardClick(cardData) {
@@ -95,6 +101,7 @@ function App() {
     return api
       .addCard(newCardData)
       .then((addedCard) => setCards([addedCard, ...cards]))
+      .catch((err) => console.error('Ошибка при добавлении карточки: ', err))
   }
   /**
    * Effects

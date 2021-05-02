@@ -18,7 +18,6 @@ function EditAvatarPopup(props) {
         onClose();
         avatarLinkInputRef.current.value = '';
       })
-      .catch((err) => console.error('Ошибка при обновлении аватара: ', err))
       .finally(() => {
         setIsSubmitting(false);
       });

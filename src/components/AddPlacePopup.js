@@ -18,8 +18,7 @@ function AddPlacePopup(props) {
         onClose();
         setName('');
         setLink('');
-      })
-      .catch((err) => console.error('Ошибка при добавлении карточки: ', err))      
+      })      
       .finally(() => {
         setIsSubmitting(false);
       });
