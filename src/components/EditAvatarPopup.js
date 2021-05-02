@@ -1,5 +1,6 @@
 import React from 'react';
 import { useRef, useState } from 'react';
+import {useFormAndValidation} from '../hooks/useFormAndValidation'
 
 import PopupWithForm from './PopupWithForm';
 
@@ -10,6 +11,8 @@ function EditAvatarPopup(props) {
 
   const avatarLinkInputRef = useRef();
 
+  const { handleChange, errors, isValid, setIsValid } = useFormAndValidation(false)
+
   function handleSubmit(e) {
     setIsSubmitting(true);
     e.preventDefault();
@@ -17,6 +20,7 @@ function EditAvatarPopup(props) {
       .then(() => {
         onClose();
         avatarLinkInputRef.current.value = '';
+        setIsValid(false)
       })
       .finally(() => {
         setIsSubmitting(false);
@@ -39,9 +43,10 @@ function EditAvatarPopup(props) {
         placeholder='Ссылка на аватар'
         required
         autoComplete='off'
+        onChange={(e)=> handleChange(e)}
       />
-      <span className='form__error avatar-link-input-error'></span>
-      <button className='form__submit form__submit_disabled' type='submit'>
+      <span className={`form__error ${errors.avatar ? 'form__error_active' : ''}`}>{errors.avatar}</span>
+      <button className={`form__submit ${isValid ? '' : 'form__submit_disabled'}`} disabled={!isValid} type='submit'>
         {isSubmitting ? 'Сохранение...' : 'Сохранить'}
       </button>
     </PopupWithForm>
