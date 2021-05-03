@@ -9,18 +9,16 @@ function EditProfilePopup(props) {
 
   const currentUser = useContext(CurrentUserContext);
 
-  const [name, setName] = useState(currentUser.name);
-  const [about, setAbout] = useState(currentUser.about);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const { handleChange, errors, isValid, resetForm, setIsValid } = useFormAndValidation()
+  const { handleChange, errors, isValid, resetForm,  values } = useFormAndValidation()
 
   function handleSubmit(e) {
     setIsSubmitting(true);
     e.preventDefault();
     onUpdateUser({
-      name,
-      about: about,
+      name: values.name,
+      about: values.about,
     })
       .then(onClose)
       .finally(() => {        
@@ -29,14 +27,8 @@ function EditProfilePopup(props) {
   }
 
   useEffect(() => {
-    setName(currentUser.name);
-    setAbout(currentUser.about);
-  }, [currentUser, isOpen]);
-
-  useEffect(()=> {
-    resetForm()
-    setIsValid(true)
-  }, [isOpen])
+    resetForm({name: currentUser.name, about: currentUser.about}, {}, true)
+  }, [currentUser, isOpen, resetForm]);
 
   return (
     <PopupWithForm
@@ -46,8 +38,8 @@ function EditProfilePopup(props) {
       {...{ isOpen, onClose }}
     >
       <input
-        value={name}
-        onChange={(e) => {setName(e.target.value); handleChange(e)}}
+        value={values.name || currentUser.name || ''}
+        onChange={handleChange}
         className='form__input'
         id='profile-name-input'
         type='text'
@@ -60,8 +52,8 @@ function EditProfilePopup(props) {
       />
       <span className={`form__error ${errors.name ? 'form__error_active' : ''}`}>{errors.name}</span>
       <input
-        value={about}
-        onChange={(e) => {setAbout(e.target.value); handleChange(e)}}
+        value={values.about || currentUser.about || ''}
+        onChange={handleChange}
         className='form__input'
         id='profile-subtitle-input'
         type='text'
