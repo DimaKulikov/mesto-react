@@ -4,9 +4,7 @@ import {useFormAndValidation} from '../hooks/useFormAndValidation'
 import CurrentUserContext from '../contexts/CurrentUserContext';
 import PopupWithForm from './PopupWithForm';
 
-function EditProfilePopup(props) {
-  const { isOpen, onClose, onUpdateUser } = props;
-
+function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
   const currentUser = useContext(CurrentUserContext);
 
   const [isSubmitting, setIsSubmitting] = useState(false);

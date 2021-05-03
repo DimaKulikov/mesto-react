@@ -1,8 +1,6 @@
 import { useEffect } from 'react';
 
-function Popup(props) {
-  const { onClose, isOpen, name } = props;
-
+function Popup({ onClose, isOpen, name, children }) {
   useEffect(() => {
     function closeOnEsc(evt) {
       if (evt.key === 'Escape') {
@@ -38,7 +36,7 @@ function Popup(props) {
           type='button'
           aria-label='закрыть'
         ></button>
-        {props.children}
+        {children}
       </div>
     </div>
   );

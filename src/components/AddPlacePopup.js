@@ -8,9 +8,7 @@ import {useFormAndValidation} from '../hooks/useFormAndValidation'
 
 import PopupWithForm from './PopupWithForm';
 
-function AddPlacePopup(props) {
-  const { isOpen, onClose, onAddPlace } = props;
-
+function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const { handleChange, errors, isValid, resetForm, values } = useFormAndValidation(false)

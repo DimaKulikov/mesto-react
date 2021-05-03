@@ -2,9 +2,7 @@ import React from 'react';
 
 import Popup from './Popup';
 
-function PopupWithForm(props) {
-  const { name, title, isOpen, onClose, onSubmit } = props;
-
+function PopupWithForm({ name, title, isOpen, onClose, onSubmit, children }) {
   return (
     <Popup {...{ name, isOpen, onClose }}>
       <form
@@ -13,7 +11,7 @@ function PopupWithForm(props) {
         noValidate
       >
         <h2 className='form__title'>{title}</h2>
-        {props.children}
+        {children}
       </form>
     </Popup>
   );

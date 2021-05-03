@@ -5,17 +5,15 @@ import CurrentUserContext from '../contexts/CurrentUserContext';
 
 import Card from './Card';
 
-function Main(props) {
-  const {
-    onEditAvatar,
-    onEditProfile,
-    onAddPlace,
-    onCardClick,
-    cards,
-    onCardLike,
-    onCardDelete,
-  } = props;
-
+function Main({
+  onEditAvatar,
+  onEditProfile,
+  onAddPlace,
+  onCardClick,
+  cards,
+  onCardLike,
+  onCardDelete,
+}){
   const currentUser = useContext(CurrentUserContext);
 
   return (

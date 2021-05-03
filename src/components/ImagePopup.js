@@ -4,9 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { PopupSpinner } from './PopupSpinner';
 import Popup from './Popup';
 
-function ImagePopup(props) {
-  const { card, onClose, isOpen } = props;
-
+function ImagePopup({ card, onClose, isOpen }) {
   const [isImageLoading, setIsImageLoading] = useState(true);
 
   const img = useRef();

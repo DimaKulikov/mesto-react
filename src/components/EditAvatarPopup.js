@@ -4,9 +4,7 @@ import {useFormAndValidation} from '../hooks/useFormAndValidation'
 
 import PopupWithForm from './PopupWithForm';
 
-function EditAvatarPopup(props) {
-  const { isOpen, onClose, onUpdateAvatar } = props;
-
+function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const { handleChange, errors, isValid, values, resetForm } = useFormAndValidation(false)
