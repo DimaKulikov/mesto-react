@@ -1,7 +1,3 @@
-/**
- * Спасибо за ревью!
- */
-
 import React from 'react';
 import { useState } from 'react';
 import {useFormAndValidation} from '../hooks/useFormAndValidation'
