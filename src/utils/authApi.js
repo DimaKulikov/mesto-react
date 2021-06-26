@@ -1,5 +1,5 @@
 const authApi = {
-  baseUrl: 'https://auth.nomoreparties.co',
+  baseUrl: 'http://localhost:3000',
   parseResponse(res) {
     if (res.ok) {
       return res.json();
@@ -36,7 +36,7 @@ const authApi = {
       .then(res => this.parseResponse(res));
   },
   getInfo(JWT) {
-    return fetch(`https://auth.nomoreparties.co/users/me`, {
+    return fetch(`${this.baseUrl}/users/me`, {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
