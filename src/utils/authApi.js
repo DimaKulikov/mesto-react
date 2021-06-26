@@ -1,5 +1,5 @@
 const authApi = {
-  baseUrl: 'http://localhost:3000',
+  baseUrl: 'http://api.mesto.dima.nomoredomains.monster/',
   parseResponse(res) {
     if (res.ok) {
       return res.json();
