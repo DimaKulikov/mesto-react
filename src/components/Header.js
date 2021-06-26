@@ -5,7 +5,7 @@ import logo from '../images/logo.svg';
 import burgerBtnSvg from '../images/burger-btn.svg';
 import closeBtn from '../images/close-btn.svg'
 
-export const Header = ({ email, onLogout }) => {
+const Header = ({ email, onLogout }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
   function toggleDrawer() {
     setIsDrawerOpen(!isDrawerOpen)
@@ -52,3 +52,5 @@ export const Header = ({ email, onLogout }) => {
     </header>
   );
 };
+
+export default Header;
