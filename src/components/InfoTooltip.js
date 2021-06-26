@@ -9,15 +9,18 @@ const icons={
 
 
 const InfoTooltip = ({icon,message,...props}) => {
-    return (
-        <Popup {...props}>
-          <div className='form'>
-            <div className='info-tooltip'>
-            <div className='info-tooltip__icon' style={{backgroundImage: `url(${icons[icon]})`, width: 120, height: 120}}> </div>
-              <p className='info-tooltip__text'>{message}</p>
-            </div>
+  return (
+    (icon &&
+      <Popup {...props}>
+        <div className='form'>
+          <div className='info-tooltip'>
+          <div className='info-tooltip__icon' style={{backgroundImage: `url(${icons[icon]})`, width: 120, height: 120}}> </div>
+            <p className='info-tooltip__text'>{message}</p>
           </div>
-        </Popup>
+        </div>
+      </Popup>
+    )
+      
     )
 }
 
