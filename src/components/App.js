@@ -1,4 +1,4 @@
-import React, { useDebugValue } from 'react';
+import React from 'react';
 import { useEffect, useState } from 'react';
 
 import Header from './Header';
