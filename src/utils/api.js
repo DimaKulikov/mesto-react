@@ -1,9 +1,14 @@
 class Api {
-  constructor({ baseUrl, headers }) {
+  constructor({ baseUrl }) {
     this._baseUrl = baseUrl;
-    this._headers = headers;
     this.deleteLike = this.deleteLike.bind(this);
     this.putLike = this.putLike.bind(this)
+  }
+
+  _getHeaders() {
+    this._headers = {
+      Authorization: 'Bearer ' + localStorage.getItem('JWT')
+    }
   }
 
   _parseResponse(res) {
@@ -14,6 +19,7 @@ class Api {
   }
 
   getInitialCards() {
+    this._getHeaders();
     return fetch(this._baseUrl + '/cards', {
       headers: this._headers
     })
@@ -21,6 +27,7 @@ class Api {
   }
 
   getUserInfo() {
+    this._getHeaders();
     return fetch(this._baseUrl + '/users/me', {
       headers: this._headers
     })
@@ -28,6 +35,7 @@ class Api {
   }
 
   updateUserInfo(newInfo) {
+    this._getHeaders();
     return fetch(this._baseUrl + '/users/me', {
       headers: { ...this._headers, 'content-type': 'application/json' },
       method: 'PATCH',
@@ -37,6 +45,7 @@ class Api {
   }
 
   addCard(newCard) {
+    this._getHeaders();
     return fetch(this._baseUrl + '/cards', {
       headers: { ...this._headers, 'content-type': 'application/json' },
       method: 'POST',
@@ -46,6 +55,7 @@ class Api {
   }
 
   deleteCard(cardId) {
+    this._getHeaders();
     return fetch(this._baseUrl + '/cards/' + cardId, {
       headers: this._headers,
       method: 'DELETE'
@@ -54,6 +64,7 @@ class Api {
   }
 
   putLike(cardId) {
+    this._getHeaders();
     return fetch(this._baseUrl + '/cards/likes/' + cardId, {
       headers: this._headers,
       method: 'PUT'
@@ -62,6 +73,7 @@ class Api {
   }
 
   deleteLike(cardId) {
+    this._getHeaders();
     return fetch(this._baseUrl + '/cards/likes/' + cardId, {
       headers: this._headers,
       method: 'DELETE'
@@ -74,6 +86,7 @@ class Api {
   }
 
   updateAvatar(avatar) {
+    this._getHeaders();
     return fetch(this._baseUrl + '/users/me/avatar', {
       headers: { ...this._headers, 'content-type': 'application/json' },
       method: 'PATCH',
@@ -84,10 +97,7 @@ class Api {
 }
 
 const api = new Api({
-  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-21',
-  headers: {
-    authorization: 'a6be0e39-3b40-440d-b51a-2e6c0105cc3c'
-  }
+  baseUrl: 'http://localhost:3000'
 })
 
 export default api

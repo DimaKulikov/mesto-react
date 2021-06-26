@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useDebugValue } from 'react';
 import { useEffect, useState } from 'react';
 
-import { Header } from './Header';
+import Header from './Header';
 import Main from './Main';
-import { Footer } from './Footer';
+import Footer from './Footer';
 import ImagePopup from './ImagePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import EditProfilePopup from './EditProfilePopup';
@@ -34,8 +34,7 @@ function App() {
   const [deletedCard, setDeletedCard] = useState();
   const [currentUser, setCurrentUser] = useState(defaultUser);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userEmail, setUserEmail] = useState('')
-  const [infoTooltipIcon, setIsInfoTooltipIcon] = useState()
+  const [infoTooltipIcon, setIsInfoTooltipIcon] = useState(null)
   const [infoTooltipMessage, setInfoTooltipMessage] = useState()
 
   const history = useHistory()
@@ -61,28 +60,13 @@ function App() {
     setIsAddPlacePopupOpen(true);
   }
 
-  function handleUpdateUser(newUserData) {
-    return api
-      .updateUserInfo(newUserData)
-      .then((userDataFromServer) => {
-        setCurrentUser(userDataFromServer);
-      })
-      .catch((err) =>
-        console.error('Ошибка при обновлении информации о пользователе: ', err)
-      );
-  }
-
-  function handleUpdateAvatar(newUserData) {
-    return api
-      .updateAvatar(newUserData)
-      .then((userDataFromServer) => {
-        setCurrentUser(userDataFromServer);
-      })
-      .catch((err) => console.error('Ошибка при обновлении аватара: ', err));
+  function handleCardClick(cardData) {
+    setSelectedCard(cardData);
+    setIsImagePopupOpen(true);
   }
 
   function handleCardLike(card) {
-    const isLiked = card.likes.some((i) => i._id === currentUser._id);
+    const isLiked = card.likes.some((id) => id === currentUser._id);
     api
       .changeCardLikeStatus(card._id, isLiked)
       .then((newCard) => {
@@ -107,10 +91,27 @@ function App() {
       .catch((err) => console.error('Ошибка при удалении карточки: ', err));
   }
 
-  function handleCardClick(cardData) {
-    setSelectedCard(cardData);
-    setIsImagePopupOpen(true);
+  function handleUpdateUser(newUserData) {
+    return api
+      .updateUserInfo(newUserData)
+      .then((userDataFromServer) => {
+        setCurrentUser(userDataFromServer);
+      })
+      .catch((err) =>
+        console.error('Ошибка при обновлении информации о пользователе: ', err)
+      );
   }
+
+  function handleUpdateAvatar(newUserData) {
+    return api
+      .updateAvatar(newUserData)
+      .then((userDataFromServer) => {
+        setCurrentUser(userDataFromServer);
+      })
+      .catch((err) => console.error('Ошибка при обновлении аватара: ', err));
+  }
+
+  
 
   function handleAddPlaceSubmit(newCardData) {
     return api
@@ -125,15 +126,16 @@ function App() {
       .then((res) => {
         localStorage.setItem('JWT', res.token)
         setIsLoggedIn(true)
-        setUserEmail(email)
+        setCurrentUser(res.user)
         history.push('/')
       })      
       .catch(console.error);
   }
 
   function handleLogout() {
+    console.log('handleLogout called')
     setIsLoggedIn(false)
-    setUserEmail('')
+    setCurrentUser(defaultUser)
     localStorage.removeItem('JWT')
     history.push('/login')
   }
@@ -150,8 +152,6 @@ function App() {
       })
   }
 
-  
-
   function showInfoTooltip(icon,message){
     setIsInfoTooltipOpen(true)
     setIsInfoTooltipIcon(icon)
@@ -161,15 +161,30 @@ function App() {
   /**
    * Effects
    */
-  // fetch api data on mount
+  // check jwt token in localStorage
   useEffect(() => {
+    console.log('check jwt effect called')
+    const token = localStorage.getItem('JWT')
+    if (token) {
+      api.getUserInfo()
+        .then((data) => {
+          setIsLoggedIn(true)
+          history.push('/')
+        })
+        .catch(err => console.error('Ошибка проверки токена авторизации:', err))
+    }
+  }, [history, setIsLoggedIn])
+
+  // fetch api data on mount or login
+  useEffect(() => {
+    console.log('fetch user data and cards effect called')
     Promise.all([api.getUserInfo(), api.getInitialCards()])
       .then(([userData, cardsArray]) => {
         setCurrentUser(userData);
         setCards(cardsArray);
       })
       .catch(console.error);
-  }, []);
+  }, [isLoggedIn, setCurrentUser]);
 
   // change images with arrowkeys in image popup
   useEffect(() => {
@@ -188,27 +203,14 @@ function App() {
     };
   }, [isImagePopupOpen, cards, selectedCard]);
 
-  // check jwt token in localStorage
-  useEffect(() => {
     
-    const token = localStorage.getItem('JWT')
-    if (token) {
-      authApi.getInfo(token)
-        .then(({data}) => {
-          setIsLoggedIn(true)
-          history.push('/')
-          setUserEmail(data.email)
-        })
-        .catch(err => console.error('Ошибка проверки токена авторизации:', err))
-    }
-  }, [history])
 
   return (
     
     <CurrentUserContext.Provider value={currentUser}>
         <div className='page'>
           <div className='page__content'>
-            <Header email={userEmail} onLogout={handleLogout}/>
+            <Header email={currentUser.email} onLogout={handleLogout}/>
             <Switch>
               <Route path='/login'>
                 <Login onLogin={handleLogin} />
